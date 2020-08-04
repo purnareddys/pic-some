@@ -1,16 +1,26 @@
 import React, { useContext } from "react";
-import Image from "../components/Image";
 import { Context } from "../Context";
-import { getClass } from "../utils";
+import CartItem from "../components/CartItem";
+
 function Cart() {
   const { cartItems } = useContext(Context);
-  console.log(cartItems);
-  const imageElements = cartItems.map((item, i) => (
-    <Image key={item.id} className={getClass(i)} img={item} />
+  const cartItemElements = cartItems.map((item) => (
+    <CartItem key={item.id} item={item} />
   ));
+  const totalCost = 5.99 * cartItems.length;
+  const totalCostDisplay = totalCost.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   return (
     <main className="cart-page">
-      {!cartItems ? <h1>No Items in the cart</h1> : imageElements}
+      <h1>Check out</h1>
+      {cartItemElements}
+      <p className="total-cost">Total: {totalCostDisplay}</p>
+      <div className="order-button">
+        <button>Place Order</button>
+      </div>
     </main>
   );
 }
