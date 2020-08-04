@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Photos from "./pages/Photos";
 const Context = React.createContext();
 
 const ContextProvider = (props) => {
   const [pics, setPics] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const url =
     "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json";
   useEffect(() => {
@@ -32,8 +34,27 @@ const ContextProvider = (props) => {
     setPics(updatedArr);
   };
 
+  const addCartItems = (item) => {
+    setCartItems((prevItems) => [...prevItems, item]);
+  };
+
+  const removeCartItems = (id) => {
+    const newCartItems = cartItems.filter((item, index) => {
+      return item.id !== id;
+    });
+    setCartItems(newCartItems);
+  };
+  console.log(cartItems);
   return (
-    <Context.Provider value={{ pics: pics, toggleFavorite }}>
+    <Context.Provider
+      value={{
+        pics: pics,
+        toggleFavorite,
+        cartItems,
+        addCartItems,
+        removeCartItems,
+      }}
+    >
       {props.children}
     </Context.Provider>
   );

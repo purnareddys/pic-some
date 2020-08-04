@@ -2,7 +2,12 @@ import React, { useState, useContext } from "react";
 import { Context } from "../Context";
 const Image = ({ className, img }) => {
   const [hovered, setHovered] = useState(false);
-  const { toggleFavorite } = useContext(Context);
+  const {
+    toggleFavorite,
+    addCartItems,
+    cartItems,
+    removeCartItems,
+  } = useContext(Context);
 
   function heartIcon() {
     if (img.isFavorite) {
@@ -21,7 +26,25 @@ const Image = ({ className, img }) => {
       );
     }
   }
-  const cartIcon = hovered && <i className="ri-add-circle-line cart"></i>;
+  function cartIcon() {
+    const alreadyInCart = cartItems.some((item) => item.id === img.id);
+    if (alreadyInCart) {
+      return (
+        <i
+          onClick={() => removeCartItems(img.id)}
+          className="ri-shopping-cart-fill cart"
+        ></i>
+      );
+    } else if (hovered) {
+      return (
+        <i
+          onClick={() => addCartItems(img)}
+          className="ri-add-circle-line cart"
+        ></i>
+      );
+    }
+  }
+
   return (
     <div
       className={`${className} image-container`}
@@ -30,7 +53,7 @@ const Image = ({ className, img }) => {
     >
       <img src={img.url} alt="Images" className="image-grid" />
       {heartIcon()}
-      {cartIcon}
+      {cartIcon()}
     </div>
   );
 };
