@@ -44,7 +44,10 @@ const ContextProvider = (props) => {
     });
     setCartItems(newCartItems);
   };
-  console.log(cartItems);
+
+  const emptyCart = () => {
+    setCartItems([]);
+  };
   return (
     <Context.Provider
       value={{
@@ -53,6 +56,7 @@ const ContextProvider = (props) => {
         cartItems,
         addCartItems,
         removeCartItems,
+        emptyCart,
       }}
     >
       {props.children}
