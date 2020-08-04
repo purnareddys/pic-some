@@ -17,9 +17,25 @@ const ContextProvider = (props) => {
         console.log("Failed to Fetch Images");
       });
   }, []);
+  const toggleFavorite = (id) => {
+    const updatedArr = pics.map((photo) => {
+      if (photo.id === id) {
+        console.log(id);
+        console.log(!photo.isFavorite);
+        return {
+          ...photo,
+          isFavorite: !photo.isFavorite,
+        };
+      }
+      return photo;
+    });
+    setPics(updatedArr);
+  };
 
   return (
-    <Context.Provider value={{ pics: pics }}>{props.children}</Context.Provider>
+    <Context.Provider value={{ pics: pics, toggleFavorite }}>
+      {props.children}
+    </Context.Provider>
   );
 };
 
